@@ -7,8 +7,8 @@ def commit_message(url,di, n)
     committs = list(repo.iter_commits('master', max_count=n))
     f=open("Commit.txt",'w')
     for i in committs:
-        f.write(i.message.encode("latin1", 'ignore'))
+        f.write(i.message.encode("latin1", 'ignore').replace("\n"," ")+"\n")
     f.close()
 
-commit_message("git://github.com/olivergierke/repositories-deepdive.git", "C:/",100)
+commit_message("git://github.com/olivergierke/repositories-deepdive.git", "C:/Rishabh/Masters Thesis/Github/xx",100)
 

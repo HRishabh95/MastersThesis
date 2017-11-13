@@ -34,6 +34,8 @@ def versions(path, dire, branch='master'):
             stats.update({
                 'object': os.path.join(path, objpath),
                 'commit': commit.hexsha,
+                'name':commit.author.name,
+                'message':commit.message,
                 'author': commit.author.email,
                 'timestamp': commit.authored_datetime.strftime(DATE_TIME_FORMAT),
                 'size': diff_size(diff),

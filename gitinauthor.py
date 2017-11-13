@@ -39,6 +39,8 @@ def versions(path, dire, name, branch='master'):
                     'object': os.path.join(path[i], objpath),
                     'commit': commit.hexsha,
                     'author': commit.author.email,
+                    'name':commit.author.name,
+                    'message':commit.message,
                     'timestamp': commit.authored_datetime.strftime(DATE_TIME_FORMAT),
                     'size': diff_size(diff),
                     'type': diff_type(diff),
@@ -76,14 +78,47 @@ def diff_type(diff):
     if diff.new_file: return 'A'
     return 'M'
 
-g = Github(login="HRishabh95", password=.......)
-a=g.repos.list(user = "ShouldBee").all()
-na=[]
-C=[]
-for i in a:
-    na.append(i.name)
-    C.append(i.git_url)
-versions(C, "C:/Rishabh/Masters Thesis/Github/",na)
+hostname = '127.0.0.1'
+username = 'admin'
+password = '1234'
+database = 'innometrics'
 
+import time
+
+def doQuery( conn ) :
+    i=0
+    cur = conn.cursor()
+    cur.execute( "SELECT id FROM auth_user" )
+    a=len(cur.fetchall())
+    a_gid=cur.fetchall()
+    time.sleep(43500)
+    cur.execute( "SELECT id FROM auth_user" )
+    b=len(cur.fetchall())
+    ids=[]
+    if b>a:
+        for gid in cur.fetchall() :
+            if gid not in a_gid:
+                ids.append(gid)
+    a=b
+    a_gid=cur.fetchall()
+    return ids
+		
+print "Using psycopg2"
+import psycopg2
+myConnection = psycopg2.connect( host=hostname, user=username, password=password, dbname=database )
+i=0
+while i==0:
+    A=doQuery(myConnection)
+    print "done"
+    g = Github(login="HRishabh95", password=.......)
+    for name in A:
+        a=g.repos.list(user = name).all()
+        na=[]
+        C=[]
+        for i in a:
+            na.append(i.name)
+            C.append(i.git_url)
+        versions(C, "C:/Rishabh/Masters Thesis/Github/",na)
+myConnection.close()
 
 

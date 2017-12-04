@@ -7,7 +7,7 @@ DATE_TIME_FORMAT = "%Y-%m-%dT%H:%M:%S%z"
 EMPTY_TREE_SHA   = "4b825dc642cb6eb9a060e54bf8d69288fbee4904"
 
 
-def versions(path, dire, name, branch='master'):
+def versions(path, dire, name, email, branch='master'):
     A=[]
     for i in range(0,5):
         if not os.path.exists(dire+name[i]):
@@ -33,19 +33,20 @@ def versions(path, dire, name, branch='master'):
                     for diff in diffs.values():
                         if diff.b_path == path and diff.renamed:
                             break
-
+                if email==commit.author.email:
             # Update the stats with the additional information
-                stats.update({
-                    'object': os.path.join(path[i], objpath),
-                    'commit': commit.hexsha,
-                    'author': commit.author.email,
-                    'name':commit.author.name,
-                    'message':commit.message,
-                    'timestamp': commit.authored_datetime.strftime(DATE_TIME_FORMAT),
-                    'size': diff_size(diff),
-                    'type': diff_type(diff),
-                })
-                A.append(stats)
+                    stats.update({
+                        'object': os.path.join(path[i], objpath),
+                        'commit': commit.hexsha,
+                        'author': commit.author.email,
+                        'name':commit.author.name,
+                        'project-name':name[i],
+                        'message':commit.message,
+                        'timestamp': commit.authored_datetime.strftime(DATE_TIME_FORMAT),
+                    #'size': diff_size(diff),
+                        'type': diff_type(diff),
+                    })
+                    A.append(stats)
     with open('data.txt', 'wb') as outfile:
         for i in A:
             json.dump(i, outfile)
@@ -78,47 +79,17 @@ def diff_type(diff):
     if diff.new_file: return 'A'
     return 'M'
 
-hostname = '127.0.0.1'
-username = 'admin'
-password = '1234'
-database = 'innometrics'
-
-import time
-
-def doQuery( conn ) :
-    i=0
-    cur = conn.cursor()
-    cur.execute( "SELECT id FROM auth_user" )
-    a=len(cur.fetchall())
-    a_gid=cur.fetchall()
-    time.sleep(43500)
-    cur.execute( "SELECT id FROM auth_user" )
-    b=len(cur.fetchall())
-    ids=[]
-    if b>a:
-        for gid in cur.fetchall() :
-            if gid not in a_gid:
-                ids.append(gid)
-    a=b
-    a_gid=cur.fetchall()
-    return ids
 		
 print "Using psycopg2"
-import psycopg2
-myConnection = psycopg2.connect( host=hostname, user=username, password=password, dbname=database )
-i=0
-while i==0:
-    A=doQuery(myConnection)
-    print "done"
-    g = Github(login="HRishabh95", password=.......)
-    for name in A:
-        a=g.repos.list(user = name).all()
-        na=[]
-        C=[]
-        for i in a:
-            na.append(i.name)
-            C.append(i.git_url)
-        versions(C, "C:/Rishabh/Masters Thesis/Github/",na)
-myConnection.close()
+g = Github(login="abc", password='abc') #Enter your USer name and password
+email="macournoyer@gmail.com" #Enter user Email ID
+a=g.repos.list(user = "macournoyer").all() #Enter user Github ID
+na=[]
+C=[]
+print len(a)
+for i in a:
+    na.append(i.name)
+    C.append(i.git_url)
+versions(C, "Folder",na,email) #Provide Folder for data saving.
 
 

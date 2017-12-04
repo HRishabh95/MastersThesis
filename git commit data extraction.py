@@ -74,4 +74,4 @@ def diff_type(diff):
     if diff.new_file: return 'A'
     return 'M'
 
-versions("git://github.com/Knowzy/KnowzyInternalApps", "C:/Rishabh/Masters Thesis/Github/xx")
+versions("Project Link", "Directory") # Project Link and Directory for saving the commits.

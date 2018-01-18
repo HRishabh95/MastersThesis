@@ -81,9 +81,9 @@ def diff_type(diff):
 
 		
 print "Using psycopg2"
-g = Github(login="abc", password='abc') #Enter your USer name and password
+ga = Github(login="abc", password='abc') #Enter your USer name and password
 email="macournoyer@gmail.com" #Enter user Email ID
-a=g.repos.list(user = "macournoyer").all() #Enter user Github ID
+a=ga.repos.list(user = "macournoyer").all() #Enter user Github ID
 na=[]
 C=[]
 print len(a)

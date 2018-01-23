@@ -48,21 +48,6 @@ def versions(path, dire, branch='master'):
             outfile.write('\n')
 
 
-def diff_size(diff):
-    """
-    Computes the size of the diff by comparing the size of the blobs.
-    """
-    if diff.b_blob is None and diff.deleted_file:
-        # This is a deletion, so return negative the size of the original.
-        return diff.a_blob.size * -1
-
-    if diff.a_blob is None and diff.new_file:
-        # This is a new file, so return the size of the new value.
-        return diff.b_blob.size
-
-    # Otherwise just return the size a-b
-    return diff.a_blob.size - diff.b_blob.size
-
 
 versions("Project Link", "Directory")
 

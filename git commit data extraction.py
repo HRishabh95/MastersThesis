@@ -39,7 +39,7 @@ def versions(path, dire, branch='master'):
                 'author': commit.author.email,
                 'timestamp': commit.authored_datetime.strftime(DATE_TIME_FORMAT),
                 'size': diff_size(diff),
-                'type': diff_type(diff),
+                #'type': diff_type(diff),
             })
             A.append(stats)
     with open('data.txt', 'wb') as outfile:
@@ -64,14 +64,6 @@ def diff_size(diff):
     return diff.a_blob.size - diff.b_blob.size
 
 
-def diff_type(diff):
-    """
-    Determines the type of the diff by looking at the diff flags.
-    """
-    #R-Remaned file, D-Deleted File, A-New file, M- No change in type.
-    if diff.renamed: return 'R'
-    if diff.deleted_file: return 'D'
-    if diff.new_file: return 'A'
-    return 'M'
+versions("Project Link", "Directory")
 
-versions("Project Link", "Directory") # Project Link and Directory for saving the commits.
+# Project Link and Directory for saving the commits.
